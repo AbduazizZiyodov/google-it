@@ -1,27 +1,12 @@
 import telebot
 
-from os import getenv
-
-from dotenv import load_dotenv
-
-from core import googleit
+from settings import TELEGRAM_API_TOKEN
+from utils import get_search_results
 
 
-load_dotenv()
-
-TELEGRAM_API_TOKEN: str = getenv("TELEGRAM_API_TOKEN")
 bot = telebot.TeleBot(TELEGRAM_API_TOKEN)
 
 blacklist: list = []
-
-
-def get_search_results(query: telebot.types.InlineQuery) -> str:
-    query, results = query.query.lower(), "[🔍Search results🤓]\n\n"
-    total: int = 0
-    for index, result in enumerate(googleit(term=query)):
-        results += f'🔰{index+1}) {result}\n'
-        total += 1
-    return results
 
 
 @bot.inline_handler(func=lambda query: len(query.query) > 0)
