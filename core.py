@@ -20,9 +20,11 @@ def search(search_term: str, api_key: str, cse_id: str, **kwargs) -> list:
     return response['items']
 
 
-def get_results(term: str = "google") -> list:
+def googleit(term: str = "django null constraint failed") -> list:
     """
     Default search term is 'google'
     """
+    if len(term) == 0:
+        return []
     results = search(term, API_KEY, CSE, num=10)
     return [result['link'] for result in results]
