@@ -22,7 +22,7 @@ Install all requirements from file:
 $ pip install -r requirements.txt
 ```
 
-On `.env`(dotenv file) write your own keys:
+On `.env`(dotenv file) write your keys:
 
 ```bash
 # Telegram bot token
@@ -42,10 +42,10 @@ $ python bot.py
 
 Bot Usage:
 
-After username of your bot, write some search term:
+After the username of your bot, write some search terms:
 ![BOT_USAGE_1](screenshots/1.PNG)
 
-If search is done , you can see inline message from bot. Then you should click it and search results will be sent in your chat.
+If search is done , you can see an inline message from the bot. Then you should click it and search results will be sent in your chat.
 
 ![BOT_USAGE_2](screenshots/2.PNG)
 
