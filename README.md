@@ -1,5 +1,7 @@
 # Just Google-it Telegram Bot !
 
+Google Search from telegram bot 😀 (inline query)
+
 ## **Setup**
 
 Clone this repo:
