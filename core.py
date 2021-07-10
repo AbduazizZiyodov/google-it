@@ -1,6 +1,9 @@
 from googleapiclient.discovery import build
 
-from settings import GOOGLE_API_KEY, CSE_ID
+from settings import config
+
+
+key, cse = config['GOOGLE_API_KEY'], config['CSE_ID']
 
 
 def search(search_term: str, api_key: str,
@@ -12,7 +15,7 @@ def search(search_term: str, api_key: str,
     """
     service = build("customsearch", "v1", developerKey=api_key)
     response = service.cse().list(q=search_term, cx=cse_id, **kwargs).execute()
-    
+
     return response['items']
 
 
@@ -22,5 +25,4 @@ def googleit(term: str = "django null constraint failed") -> list:
     """
     if len(term) == 0:
         return []
-    results = search(term, GOOGLE_API_KEY, CSE_ID, num=10)
-    return [result['link'] for result in results]
+    return [result['link'] for result in search(term, key, cse, num=10)]
