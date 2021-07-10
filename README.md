@@ -1,6 +1,8 @@
-# Just Google-it Telegram Bot !
+# 🔥Google-it Telegram Bot
 
-Google Search from telegram bot 😀 (inline query)
+> `Google Search` from telegram bot 😀 (bot works inline)
+
+For using this bot you need to place your group id in your environment. Bot checks its users for a member of your group. Users have to be members of your group for using the bot's functionality! If the user is not a member of your group, the bot automatically sends a message to the user about it.
 
 ## **Setup**
 
@@ -34,6 +36,9 @@ TELEGRAM_API_TOKEN = ""
 # Search Engine Keys
 GOOGLE_API_KEY = ""
 CSE_ID = ""
+
+# Your Group ID : integer or string
+GROUP_CHAT_ID = ""
 ```
 
 ## **Running**
