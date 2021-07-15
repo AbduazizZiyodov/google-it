@@ -1,28 +1,39 @@
 from googleapiclient.discovery import build
 
-from settings import config
+from settings import CSE_ID
+from settings import GOOGLE_API_KEY
 
 
-key, cse = config['GOOGLE_API_KEY'], config['CSE_ID']
+key, cse = GOOGLE_API_KEY, CSE_ID
 
 
-def search(search_term: str, api_key: str,
+service = build("customsearch", "v1", developerKey=key)
+
+
+def search(search_term: str,
            cse_id: str, **kwargs) -> list:
     """
-    - search_term : no comment
-    - api_key : from https://developers.google.com/custom-search/v1/introduction (click get API key)
-    - cse_id : after creating search engine, you can get it from its settings page
+    - api_key : https://developers.google.com/custom-search/v1/introduction
+    - cse_id : you can get it from your search engine's settings
     """
-    service = build("customsearch", "v1", developerKey=api_key)
+
     response = service.cse().list(q=search_term, cx=cse_id, **kwargs).execute()
 
-    return response['items']
+    return response['items'] if 'items' in response else []
 
 
-def googleit(term: str = "django null constraint failed") -> list:
+def googleit(term: str = "sql insert") -> list:
     """
     Default search term is 'google'
     """
-    if len(term) == 0:
-        return []
-    return [result['link'] for result in search(term, key, cse, num=10)]
+    if len(term) > 0:
+        search_results = search(term, cse, num=10)
+
+        return [
+            {
+                'title': result['title'],
+                'link':result['link'],
+            }
+            for result in search_results
+        ] if len(search_results) > 1 else []
+    return []
