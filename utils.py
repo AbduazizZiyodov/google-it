@@ -1,7 +1,7 @@
-from json import dumps
+from telebot import TeleBot
+
 from random import choice
 from loguru import logger
-from requests import request
 
 from telebot.types import InlineQuery
 from telebot.types import InputTextMessageContent
@@ -59,9 +59,10 @@ numbers = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7�
 
 def get_search_results(query: InlineQuery) -> str:
     """Function for formatting search results"""
-    query, results = query.query.lower(), "🔍Search results🤓\n\n"
+    term = query.query.lower()
+    results = "🔍Search results: {}🤓\n".format(term)
 
-    search_results = googleit(term=query)
+    search_results = googleit(term=term)
 
     if len(search_results) > 1:
         for index, result in enumerate(search_results):
@@ -70,7 +71,7 @@ def get_search_results(query: InlineQuery) -> str:
                 result['title'],
                 result['link']
             )
-        return results
+        return str(results)
     else:
         results += "🙄"
 
@@ -86,34 +87,24 @@ def make_query_result(results: str, query: InlineQuery) -> InlineQueryResultArti
     )
 
 
-def make_chat_member_result(group_name: str) -> InlineQueryResultArticle:
+def make_chat_member_result() -> InlineQueryResultArticle:
     """
     Query result for if user is not spec. group member
     p.s only for group members allowed to use this bot !
     """
     return InlineQueryResultArticle(
         id='1',
-        title='Error while using bot 🤔',
-        description=f"For using this bot, you need to be a member of the {group_name} group 😃(click me)",
+        title='Error while using a bot 🤔',
+        description="For using this bot, you need to be a member of the {} group 😃(click me)".format(
+            chat_id),
         input_message_content=InputTextMessageContent(
-            message_text=f"It would be nice if you join {channel} channel.")
+            message_text="It would be nice if you join {} channel.".format(channel))
     )
 
 
-def check_group_member(user_id: int) -> bool:
-    """
-    Check user for group member. 
-    Solution: with telegram API
-    """
-
-    response = request(
-        "POST", url, headers={
-            'Content-Type': 'application/json'
-        }, data=dumps({
-            "chat_id": chat_id,
-            "user_id": int(user_id)
-        }))
-    return True if response.status_code == 200 else False
+def check_group_member(bot: TeleBot, user_id: int) -> bool:
+    return True \
+        if bot.get_chat_member(chat_id, user_id).status == "member" else False
 
 
 def get_random_meme() -> str:
