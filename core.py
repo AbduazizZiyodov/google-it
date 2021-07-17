@@ -26,14 +26,12 @@ def googleit(term: str = "sql insert") -> list:
     """
     Default search term is 'google'
     """
-    if len(term) > 0:
-        search_results = search(term, cse, num=10)
+    search_results = search(term, cse, num=10)
 
-        return [
-            {
-                'title': result['title'],
-                'link':result['link'],
-            }
-            for result in search_results
-        ] if len(search_results) > 1 else []
-    return []
+    return [
+        {
+            'title': result['title'],
+            'link':result['link'],
+        }
+        for result in search_results
+    ]
