@@ -39,6 +39,10 @@ CSE_ID = ""
 
 # Your Group ID : integer or string
 GROUP_CHAT_ID = ""
+
+# Your Channel ID (OPTIONAL): integer or string
+
+CHANNEL_ID = ""
 ```
 
 ## **Running**
