@@ -9,12 +9,9 @@ from telebot.types import InlineQueryResultArticle
 
 from core import googleit
 
-from settings import BOT_TOKEN as token
 from settings import GROUP_CHAT_ID as chat_id
 from settings import CHANNEL_NAME as channel
 
-
-url = f"https://api.telegram.org/bot{token}/getChatMember"
 
 
 class Logging(object):
