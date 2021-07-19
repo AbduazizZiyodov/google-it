@@ -54,6 +54,7 @@ $ python bot.py
 Bot Usage:
 
 After the username of your bot, write some search terms:
+
 ![BOT_USAGE_1](screenshots/1.PNG)
 
 If search is done , you can see an inline message from the bot. Then you should click it and search results will be sent in your chat.
