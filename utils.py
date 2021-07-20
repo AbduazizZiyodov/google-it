@@ -1,7 +1,6 @@
 from telebot import TeleBot
 
 from random import choice
-from loguru import logger
 
 from telebot.types import InlineQuery
 from telebot.types import InputTextMessageContent
@@ -9,37 +8,9 @@ from telebot.types import InlineQueryResultArticle
 
 from core import googleit
 
-from settings import BOT_TOKEN as token
 from settings import GROUP_CHAT_ID as chat_id
 from settings import CHANNEL_NAME as channel
-
-
-url = f"https://api.telegram.org/bot{token}/getChatMember"
-
-
-class Logging(object):
-    """Simple logging object with one private and public method"""
-
-    def __init__(self, file) -> None:
-        self.file = file
-        self.__setup_logger()
-
-    def __setup_logger(self) -> None:
-        logger.add(self.file, backtrace=True, diagnose=True)
-
-    def log(self, message: str) -> None:
-        logger.info(message)
-
-
-activity = Logging('actions.log')
-
-
-def save(query: InlineQuery) -> None:
-    """Logging message format"""
-    term, user = query.query.encode("utf-8"), query.from_user
-    activity.log(
-        "Search Term ** {} ** By user -> first_name {} | last_name {} | username @{} | user_id #{}".format(
-            term, user.first_name, user.last_name, user.username, user.id))
+from settings import SUPER_USER_ID as su_id
 
 
 bad_words: list = ['bad']
@@ -105,6 +76,20 @@ def make_chat_member_result() -> InlineQueryResultArticle:
 def check_group_member(bot: TeleBot, user_id: int) -> bool:
     return True \
         if bot.get_chat_member(chat_id, user_id).status == "member" else False
+
+
+def format_info(query: InlineQuery) -> str:
+    term, user = query.query, query.from_user
+    return "🔎Search-term: {}\n💂‍♂️User-INFO:\n- ⚜User ID: #{}\n- 🔰Username: @{}\n- ➡First Name: {}\n- ➡Last Name: {}\n- 👀is_bot: {}\n"\
+        .format(
+            term.lower(), user.id,
+            user.username, user.first_name,
+            user.last_name, user.is_bot
+        )
+
+
+def save(query: InlineQuery, bot: TeleBot) -> None:
+    bot.send_message(int(su_id), format_info(query))
 
 
 def get_random_meme() -> str:
