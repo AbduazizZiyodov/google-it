@@ -24,7 +24,7 @@ def search(search_term: str,
 
 def googleit(term: str = "sql insert") -> list:
     """
-    Default search term is 'google'
+    Default search term is 'sql'
     """
     search_results = search(term, cse, num=10)
 
